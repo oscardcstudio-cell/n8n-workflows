@@ -1,0 +1,353 @@
+{
+ "name": "W1b · Boost d'un post Instagram (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Formulaire",
+   "position": [
+    75,
+    0
+   ],
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.2,
+   "parameters": {
+    "formTitle": "Formulaire",
+    "formFields": {
+     "values": []
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    -15
+   ],
+   "parameters": {
+    "content": "Reçoit le post à booster, le budget, la durée et le ciblage.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Préflight",
+   "position": [
+    75,
+    160
+   ],
+   "notes": "OK / Refusé",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "OK"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Refusé"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    145
+   ],
+   "parameters": {
+    "content": "Contrôle les droits, le compte publicitaire et l'éligibilité du post avant toute création.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Validation humaine",
+   "position": [
+    75,
+    320
+   ],
+   "notes": "Validé / Refusé",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Validé"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Refusé"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    305
+   ],
+   "parameters": {
+    "content": "Un relecteur valide la campagne. Budget entre 5 et 200 €, durée entre 1 et 14 jours.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Création en pause",
+   "position": [
+    75,
+    480
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    465
+   ],
+   "parameters": {
+    "content": "Campagne, ensemble et annonce créés en pause : aucune dépense. Si une étape échoue, tout est nettoyé.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Diffusion + alerte",
+   "position": [
+    75,
+    640
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    625
+   ],
+   "parameters": {
+    "content": "Démarre seulement sur un second feu vert explicite, puis une alerte prévient l'équipe.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec6",
+   "name": "6 · Arrêt immédiat",
+   "position": [
+    75,
+    800
+   ],
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2,
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "apercu",
+    "options": {}
+   }
+  },
+  {
+   "id": "note6",
+   "name": "Note 6",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    785
+   ],
+   "parameters": {
+    "content": "Coupe la diffusion à tout moment, sur simple appel : tout repasse en pause et une alerte le confirme.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Formulaire": {
+   "main": [
+    [
+     {
+      "node": "2 · Préflight",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Préflight": {
+   "main": [
+    [
+     {
+      "node": "3 · Validation humaine",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · Validation humaine": {
+   "main": [
+    [
+     {
+      "node": "4 · Création en pause",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Création en pause": {
+   "main": [
+    [
+     {
+      "node": "5 · Diffusion + alerte",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "6 · Arrêt immédiat": {
+   "main": [
+    [
+     {
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

@@ -1,0 +1,258 @@
+{
+ "name": "W1d · Rapport de fin de campagne (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Toutes les heures",
+   "position": [
+    0,
+    0
+   ],
+   "type": "n8n-nodes-base.scheduleTrigger",
+   "typeVersion": 1.2,
+   "parameters": {
+    "rule": {
+     "interval": [
+      {
+       "field": "days"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -50,
+    160
+   ],
+   "parameters": {
+    "content": "Contrôle chaque campagne en diffusion.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Campagne terminée ?",
+   "position": [
+    210,
+    0
+   ],
+   "notes": "Terminée / En cours",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Terminée"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "En cours"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    160,
+    160
+   ],
+   "parameters": {
+    "content": "Vérifie si la diffusion est arrivée à son terme.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Verrou anti-doublon",
+   "position": [
+    420,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    370,
+    160
+   ],
+   "parameters": {
+    "content": "Un verrou par annonce : une seule alerte, même si deux exécutions se croisent.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Chiffres de la campagne",
+   "position": [
+    630,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    580,
+    160
+   ],
+   "parameters": {
+    "content": "Rassemble la dépense, les visites du site, les dossiers complétés et le coût par dossier.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Bilan envoyé",
+   "position": [
+    840,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    790,
+    160
+   ],
+   "parameters": {
+    "content": "Le bilan part sur Telegram. Le verrou reste posé même si l'envoi échoue : jamais de doublon.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Toutes les heures": {
+   "main": [
+    [
+     {
+      "node": "2 · Campagne terminée ?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Campagne terminée ?": {
+   "main": [
+    [
+     {
+      "node": "3 · Verrou anti-doublon",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · Verrou anti-doublon": {
+   "main": [
+    [
+     {
+      "node": "4 · Chiffres de la campagne",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Chiffres de la campagne": {
+   "main": [
+    [
+     {
+      "node": "5 · Bilan envoyé",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

@@ -1,0 +1,348 @@
+{
+ "name": "W3 · Tri des demandes entrantes (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Demande reçue",
+   "position": [
+    0,
+    0
+   ],
+   "type": "n8n-nodes-base.webhook",
+   "typeVersion": 2,
+   "parameters": {
+    "httpMethod": "POST",
+    "path": "apercu",
+    "options": {}
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -50,
+    160
+   ],
+   "parameters": {
+    "content": "Reçoit le message du formulaire de contact.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Tri par l’IA",
+   "position": [
+    210,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    160,
+    160
+   ],
+   "parameters": {
+    "content": "Classe la demande (devis, support, partenariat, spam) et prépare un brouillon de réponse.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Spam ?",
+   "position": [
+    420,
+    0
+   ],
+   "notes": "Demande / Spam",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Demande"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Spam"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    370,
+    160
+   ],
+   "parameters": {
+    "content": "Le spam est classé sans réponse et journalisé.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Validation humaine",
+   "position": [
+    630,
+    0
+   ],
+   "notes": "Envoyer / Ne pas répondre",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Envoyer"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Ne pas répondre"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    580,
+    160
+   ],
+   "parameters": {
+    "content": "Le relecteur reçoit une page de validation et modifie le brouillon. Aucune réponse ne part sans lui.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Envoi de la réponse",
+   "position": [
+    840,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    790,
+    160
+   ],
+   "parameters": {
+    "content": "La réponse validée part par mail.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec6",
+   "name": "6 · Journal",
+   "position": [
+    1050,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note6",
+   "name": "Note 6",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    1000,
+    160
+   ],
+   "parameters": {
+    "content": "Chaque demande est journalisée.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Demande reçue": {
+   "main": [
+    [
+     {
+      "node": "2 · Tri par l’IA",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Tri par l’IA": {
+   "main": [
+    [
+     {
+      "node": "3 · Spam ?",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · Spam ?": {
+   "main": [
+    [
+     {
+      "node": "4 · Validation humaine",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Validation humaine": {
+   "main": [
+    [
+     {
+      "node": "5 · Envoi de la réponse",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "5 · Envoi de la réponse": {
+   "main": [
+    [
+     {
+      "node": "6 · Journal",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

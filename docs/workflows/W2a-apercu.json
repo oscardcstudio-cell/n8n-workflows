@@ -1,0 +1,345 @@
+{
+ "name": "W2a · Atelier d'images (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Formulaire de génération",
+   "position": [
+    0,
+    0
+   ],
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.2,
+   "parameters": {
+    "formTitle": "Formulaire",
+    "formFields": {
+     "values": []
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -50,
+    160
+   ],
+   "parameters": {
+    "content": "Reçoit le projet et le style. Assemble la bible visuelle et des images de référence (6 au maximum).",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Coût + validation humaine",
+   "position": [
+    210,
+    0
+   ],
+   "notes": "Valider / Annuler",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Valider"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Annuler"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    160,
+    160
+   ],
+   "parameters": {
+    "content": "Le coût est estimé et affiché avant toute dépense. Rien ne se génère sans validation.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Génération + archivage",
+   "position": [
+    420,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    370,
+    160
+   ],
+   "parameters": {
+    "content": "Génère l'image, lit le coût réel, archive l'image avec sa fiche de génération.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Formulaire d'édition",
+   "position": [
+    0,
+    320
+   ],
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.2,
+   "parameters": {
+    "formTitle": "Formulaire",
+    "formFields": {
+     "values": []
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -50,
+    480
+   ],
+   "parameters": {
+    "content": "Dix outils d'édition (zoom out, détourage, relight…) appliqués à une image existante.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Instruction relue",
+   "position": [
+    210,
+    320
+   ],
+   "notes": "Éditer / Annuler",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Éditer"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Annuler"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    160,
+    480
+   ],
+   "parameters": {
+    "content": "L'IA rédige l'instruction d'édition ; un humain la relit avant toute exécution.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec6",
+   "name": "6 · Nouvelle version",
+   "position": [
+    420,
+    320
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note6",
+   "name": "Note 6",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    370,
+    480
+   ],
+   "parameters": {
+    "content": "La version éditée se rattache à son image source ; tout l'historique est conservé.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Formulaire de génération": {
+   "main": [
+    [
+     {
+      "node": "2 · Coût + validation humaine",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Coût + validation humaine": {
+   "main": [
+    [
+     {
+      "node": "3 · Génération + archivage",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Formulaire d'édition": {
+   "main": [
+    [
+     {
+      "node": "5 · Instruction relue",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "5 · Instruction relue": {
+   "main": [
+    [
+     {
+      "node": "6 · Nouvelle version",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

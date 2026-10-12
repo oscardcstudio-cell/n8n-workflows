@@ -1,0 +1,200 @@
+{
+ "name": "W2c · Historique et export (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Formulaire",
+   "position": [
+    0,
+    0
+   ],
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.2,
+   "parameters": {
+    "formTitle": "Formulaire",
+    "formFields": {
+     "values": []
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -50,
+    160
+   ],
+   "parameters": {
+    "content": "Désigne le projet à exporter.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Lecture des fiches",
+   "position": [
+    210,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    160,
+    160
+   ],
+   "parameters": {
+    "content": "Lit toutes les fiches de génération du projet.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Historique + coûts",
+   "position": [
+    420,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    370,
+    160
+   ],
+   "parameters": {
+    "content": "Reconstruit la chaîne des versions (image, éditions, vidéos) et additionne les coûts réels.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Export",
+   "position": [
+    630,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    580,
+    160
+   ],
+   "parameters": {
+    "content": "Écrit l'historique lisible et le manifeste dans le dossier d'export.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Envoi Google Drive",
+   "position": [
+    840,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    790,
+    160
+   ],
+   "parameters": {
+    "content": "Option : envoie tous les fichiers du projet sur Drive. Jamais obligatoire.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Formulaire": {
+   "main": [
+    [
+     {
+      "node": "2 · Lecture des fiches",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Lecture des fiches": {
+   "main": [
+    [
+     {
+      "node": "3 · Historique + coûts",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · Historique + coûts": {
+   "main": [
+    [
+     {
+      "node": "4 · Export",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Export": {
+   "main": [
+    [
+     {
+      "node": "5 · Envoi Google Drive",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

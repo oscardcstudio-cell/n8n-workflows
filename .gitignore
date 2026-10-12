@@ -1,0 +1,4 @@
+shots-page/
+*.json
+!docs/workflows/*.json
+captures/

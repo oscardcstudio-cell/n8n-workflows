@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Huit workflows n8n · Oscar de Canecaude</title>
+<meta name="description" content="Huit workflows n8n signés Oscar de Canecaude, conçus avec Claude Code : publier et suivre un post, produire des images et des vidéos, trier les demandes d’un formulaire de contact. Ils s’adressent aux clients qui cherchent un prestataire en automatisation n8n et agents IA, et aux organismes de formation.">
+<meta name="color-scheme" content="light">
+<link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@n8n_io/n8n-demo-component@1.0.20/n8n-demo.bundled.js" integrity="sha384-aFom9fiO8R2aGLz5XooQK70H33kayU/NpPVVA0OayjMc7Qg+gePQOJOEINwGSx1q" crossorigin="anonymous"></script>
+<style>
+/* direction : fiche technique imprimée, noir et blanc · macrostructure : document long à colonne d'index (code à gauche, texte à droite) */
+@font-face{font-family:"Geist";src:url(assets/fonts/geist-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Geist Mono";src:url(assets/fonts/geist-mono-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-display:swap}
+
+:root{
+  color-scheme:light;
+  --paper:oklch(98.6% 0 0);
+  --paper-2:oklch(95.8% 0 0);
+  --ink:oklch(15% 0 0);
+  --ink-2:oklch(33% 0 0);
+  --ink-3:oklch(44% 0 0);
+  --rule:oklch(15% 0 0 / .13);
+  --rule-2:oklch(15% 0 0 / .34);
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+  --gutter:clamp(20px,5vw,48px);
+  --r:2px;
+  --canvas-h:clamp(380px,46vw,560px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 clamp(1rem,.96rem + .2vw,1.0625rem)/1.65 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,p,ul,ol{margin:0;padding:0}
+ul,ol{list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit}
+code{font:500 .86em var(--mono);background:var(--paper-2);padding:.08em .35em;border-radius:var(--r)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ic{width:1.25em;height:1.25em;flex:none;fill:currentColor}
+.wrap{width:100%;max-width:1120px;margin-inline:auto;padding-inline:var(--gutter)}
+
+/* liens */
+main a:not(.btn),.foot a,.top a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:var(--rule-2);transition:text-decoration-color 160ms ease}
+@media (hover:hover) and (pointer:fine){main a:not(.btn):hover{text-decoration-color:var(--ink)}}
+a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:var(--r)}
+
+/* en-tête */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.top-in{display:flex;align-items:center;justify-content:space-between;height:56px}
+.top a{text-decoration:none}
+.brand{font-weight:600;font-size:.9375rem;letter-spacing:-.01em}
+.top-contact{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;font-weight:500;font-size:.9375rem;transition:transform 140ms var(--ease-out)}
+.top-contact:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.top-contact:hover span{text-decoration:underline;text-underline-offset:.22em;text-decoration-thickness:1px}}
+
+/* hero */
+.hero{padding-block:clamp(48px,8vw,96px) clamp(40px,6vw,72px)}
+h1{font-weight:300;font-size:clamp(2.25rem,7.6vw,5.5rem);line-height:1;letter-spacing:-.045em;text-wrap:balance;max-width:13ch}
+.lead{margin-top:clamp(24px,3.5vw,40px);max-width:42ch;font-size:clamp(1.125rem,1rem + .6vw,1.5rem);line-height:1.4;letter-spacing:-.012em;text-wrap:pretty}
+.lead-2{margin-top:20px;max-width:56ch;color:var(--ink-2);text-wrap:pretty}
+.index{margin-top:clamp(40px,6vw,72px);border-top:1px solid var(--ink)}
+.index-row{display:grid;grid-template-columns:3.25rem 1fr;gap:0 12px;align-items:baseline;padding-block:14px;border-bottom:1px solid var(--rule)}
+.fam-code-s{font:300 clamp(1.5rem,3.4vw,2.25rem)/1 var(--sans);letter-spacing:-.03em}
+.index ul ul{display:flex;flex-wrap:wrap;gap:0 clamp(20px,3vw,36px)}
+.index a{display:inline-flex;align-items:baseline;gap:.55rem;min-height:40px;padding-block:6px;text-decoration:none;font-weight:500}
+.index a .code{font:500 .8125rem var(--mono);color:var(--ink-3)}
+.index a .go{width:.95em;height:.95em;align-self:center;opacity:0;transform:translateY(-3px);transition:opacity 160ms ease,transform 200ms var(--ease-out)}
+.index a span:last-of-type{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:transparent;transition:text-decoration-color 160ms ease}
+@media (hover:hover) and (pointer:fine){
+  .index a:hover span:last-of-type{text-decoration-color:var(--ink)}
+  .index a:hover .go{opacity:1;transform:none}
+}
+.index a:active{transform:scale(.98)}
+.hero-link{margin-top:20px;font-size:.9375rem;color:var(--ink-3)}
+
+/* grille documentaire : axe gauche (code) / axe droit (texte) */
+.grid{display:grid;gap:14px}
+@media (min-width:880px){.grid{grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:0 clamp(28px,4vw,48px)}}
+.wf-main{min-width:0}
+
+/* familles */
+.fam{padding-top:clamp(40px,6vw,72px)}
+.fam-head{padding-bottom:clamp(24px,4vw,40px)}
+.fam-code{font:300 clamp(3rem,9vw,5.5rem)/.9 var(--sans);letter-spacing:-.05em}
+h2{font-weight:600;font-size:clamp(1.75rem,1.2rem + 2.2vw,2.75rem);line-height:1.08;letter-spacing:-.03em;text-wrap:balance}
+.fam-intro{margin-top:16px;max-width:62ch;color:var(--ink-2);text-wrap:pretty}
+
+/* workflow */
+.wf{padding-block:clamp(32px,5vw,56px) clamp(40px,6vw,72px);border-top:1px solid var(--rule-2)}
+.wf-code{font:500 1.0625rem/1 var(--mono);letter-spacing:-.01em;padding-top:.45rem}
+@media (min-width:880px){.wf-side{position:relative}.wf .wf-code{position:sticky;top:84px}}
+.wf-title{font-weight:600;font-size:clamp(1.375rem,1.1rem + 1.2vw,1.875rem);line-height:1.15;letter-spacing:-.025em;text-wrap:balance}
+.mk{display:inline-flex;flex:none;color:var(--ink)}
+.mk .ic{width:1.25rem;height:1.25rem}
+.problem{display:grid;grid-template-columns:1.25rem 1fr;gap:12px;margin-top:18px;max-width:64ch;font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem);line-height:1.5;text-wrap:pretty}
+.problem .mk{margin-top:.2em}
+.cols{display:grid;gap:28px;margin-top:28px}
+@media (min-width:1000px){.cols{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px}}
+.steps ol{counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;position:relative;padding-left:2.25rem;color:var(--ink-2)}
+.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:0;font:500 .8125rem/2.15 var(--mono);color:var(--ink-3)}
+.steps li strong{font-weight:600;color:var(--ink);margin-right:.5em}
+.note{margin-top:16px;padding-left:2.25rem;color:var(--ink);text-wrap:pretty}
+.aside{display:grid;gap:22px;align-content:start}
+.guard{display:grid;grid-template-columns:1.25rem 1fr;gap:12px}
+.guard .mk{margin-top:.15em}
+.guard ul{display:grid;gap:8px}
+.guard li{position:relative}
+.cred{display:grid;grid-template-columns:1.25rem 1fr;gap:12px;color:var(--ink-2);font-size:.9375rem;line-height:1.55}
+.cred .mk{margin-top:.15em;color:var(--ink)}
+
+/* boutons */
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:46px;padding:0 18px;border:1px solid var(--ink);border-radius:var(--r);font:500 .9375rem/1 var(--sans);letter-spacing:-.005em;text-decoration:none;cursor:pointer;transition:transform 140ms var(--ease-out),background-color 160ms ease,color 160ms ease}
+.btn .ic{width:1.15rem;height:1.15rem}
+.btn-solid{background:var(--ink);color:var(--paper)}
+.btn-line{background:transparent;color:var(--ink)}
+.btn:active{transform:scale(.97)}
+.btn[disabled],.btn[aria-disabled=true]{opacity:.45;cursor:not-allowed}
+.btn[aria-busy=true]{cursor:progress}
+@media (hover:hover) and (pointer:fine){
+  .btn-solid:hover{background:var(--ink-2)}
+  .btn-line:hover{background:var(--ink);color:var(--paper)}
+}
+@media (max-width:420px){.actions .btn{flex:1 1 100%}}
+
+/* canevas n8n */
+.stage{margin-top:24px;border:1px solid var(--rule-2);border-radius:var(--r);background:var(--paper-2);overflow:hidden;animation:fade 220ms var(--ease-out)}
+.stage[hidden]{display:none}
+@media (min-width:880px){.wf .grid{--g:clamp(28px,4vw,48px)}.wf-main>.stage{margin-left:calc(-33.3333% - var(--g))}}
+.stage-body{position:relative;min-height:var(--canvas-h)}
+n8n-demo{display:block;--n8n-workflow-min-height:var(--canvas-h);opacity:0;transition:opacity 260ms var(--ease-out)}
+.stage-body[data-state=ready] n8n-demo{opacity:1}
+.stage-msg{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--ink-3);font-size:.9375rem}
+.stage-body[data-state=loading] .stage-loading{display:flex;animation:pulse 1.4s ease-in-out infinite}
+.stage-body[data-state=error] .stage-error{display:flex;flex-wrap:wrap;gap:0 .4em}
+.stage-body[data-state=error] n8n-demo{display:none}
+.lock{position:absolute;inset:0;z-index:3;display:flex;align-items:flex-end;justify-content:flex-start;padding:14px;border:0;background:transparent;cursor:pointer;border-radius:0}
+.lock[hidden]{display:none}
+.lock span{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;background:var(--ink);color:var(--paper);border-radius:var(--r);font:500 .8125rem/1 var(--sans);transition:transform 140ms var(--ease-out)}
+.lock:active span{transform:scale(.97)}
+.lock:focus-visible{outline-offset:-4px}
+
+/* captures */
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:20px 12px;margin-top:36px}
+.shot.wide{grid-column:span 2}
+.shot-btn{display:block;width:100%;padding:0;border:0;background:none;text-align:left;color:var(--ink);font:inherit;cursor:zoom-in;transition:transform 140ms var(--ease-out)}
+.shot-btn:active{transform:scale(.98)}
+.shot-btn img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:top left;background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);filter:grayscale(1);transition:filter 220ms ease}
+.shot.wide img{aspect-ratio:8/3}
+.shot-btn span{display:block;margin-top:8px;font-size:.8125rem;line-height:1.35;color:var(--ink-3);text-wrap:balance}
+@media (hover:hover) and (pointer:fine){.shot-btn:hover img{filter:none}}
+
+/* sections de texte */
+.doc{padding-block:clamp(40px,6vw,72px);border-top:1px solid var(--rule-2)}
+.doc h2{margin-bottom:clamp(20px,3vw,32px)}
+.doc p{max-width:64ch;color:var(--ink-2);text-wrap:pretty}
+.doc p+p{margin-top:16px}
+.doc .principle{margin-top:clamp(28px,4vw,44px);padding-top:clamp(20px,3vw,32px);border-top:1px solid var(--rule);max-width:34ch;color:var(--ink);font-weight:500;font-size:clamp(1.25rem,1.05rem + 1vw,1.75rem);line-height:1.3;letter-spacing:-.02em}
+.import{counter-reset:i;display:grid;gap:14px;max-width:64ch}
+.import li{counter-increment:i;position:relative;padding-left:2.25rem;color:var(--ink-2)}
+.import li::before{content:counter(i,decimal-leading-zero);position:absolute;left:0;top:0;font:500 .8125rem/2.15 var(--mono);color:var(--ink-3)}
+
+/* pied : contact */
+.foot{background:var(--ink);color:var(--paper);padding-block:clamp(48px,8vw,96px) clamp(32px,5vw,56px)}
+.foot a{text-decoration:none}
+.foot-cta{display:inline-flex;align-items:center;gap:.25em;font-weight:300;font-size:clamp(3rem,13vw,8.5rem);line-height:1;letter-spacing:-.05em;padding-bottom:.08em;transition:transform 160ms var(--ease-out)}
+.foot-cta .ic{width:.62em;height:.62em;margin-top:.12em;transition:transform 220ms var(--ease-out)}
+.foot-cta:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.foot-cta:hover .ic{transform:translate(.06em,-.06em)}}
+.foot-mail{margin-top:20px;font-size:1.0625rem}
+.foot-mail a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:oklch(98% 0 0 / .4)}
+.foot-links{display:flex;flex-wrap:wrap;gap:0 28px;margin-top:clamp(36px,6vw,64px);padding-top:20px;border-top:1px solid oklch(98% 0 0 / .22);font-size:.9375rem}
+.foot-links a{display:inline-flex;align-items:center;min-height:44px;color:oklch(82% 0 0);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.22em;text-decoration-color:transparent;transition:color 160ms ease,text-decoration-color 160ms ease}
+@media (hover:hover) and (pointer:fine){.foot-links a:hover{color:var(--paper);text-decoration-color:currentColor}}
+.foot a:focus-visible{outline-color:var(--paper)}
+
+/* visionneuse */
+dialog{padding:0;border:0;background:transparent;color:var(--paper);max-width:none;max-height:none;width:100%;height:100%;inset:0}
+dialog:not([open]){display:none}
+dialog::backdrop{background:oklch(10% 0 0)}
+.lb-in{display:flex;flex-direction:column;height:100%;animation:pop 220ms var(--ease-out)}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px var(--gutter);min-height:60px}
+.lb-cap{font-size:.9375rem;font-weight:500}
+.lb-ctl{display:flex;gap:4px}
+.ib{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid oklch(98% 0 0 / .3);border-radius:var(--r);background:transparent;color:var(--paper);cursor:pointer;transition:transform 140ms var(--ease-out),background-color 160ms ease}
+.ib .ic{width:1.25rem;height:1.25rem}
+.ib:active{transform:scale(.95)}
+.ib[disabled]{opacity:.35;cursor:not-allowed}
+dialog :focus-visible{outline-color:var(--paper)}
+@media (hover:hover) and (pointer:fine){.ib:not([disabled]):hover{background:oklch(98% 0 0 / .14)}}
+.lb-view{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 var(--gutter) 20px;overflow:auto}
+.lb-view img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;background:var(--paper);border-radius:var(--r);cursor:zoom-in}
+.lb-view.zoom{align-items:flex-start;justify-content:flex-start}
+.lb-view.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+@keyframes pulse{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .lb-in{animation:fade 200ms ease}
+}
+
+/* canevas agrandi */
+.expand{position:absolute;top:12px;right:12px;z-index:4;background:var(--paper);color:var(--ink);border-color:var(--rule-2)}
+.expand[hidden]{display:none}
+.expand .i-out{display:none}
+.stage.full{position:fixed;inset:0;z-index:40;margin:0;border:0;border-radius:0;--canvas-h:100dvh;background:var(--paper-2)}
+.stage.full .stage-body{min-height:100dvh}
+.stage.full .expand .i-in{display:none}
+.stage.full .expand .i-out{display:block}
+@media (hover:hover) and (pointer:fine){.expand:hover{background:var(--paper-2)}}
+
+</style>
+</head>
+<body>
+<div id="page">
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="https://www.odcstudio.fr" target="_blank" rel="noopener">Oscar de Canecaude</a>
+    <a class="top-contact" href="mailto:oscardcstudio@gmail.com"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Contact</span></a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <h1>Workflows n8n et leurs interfaces</h1>
+    <p class="lead">n8n relie aujourd'hui les outils et fait tourner la mécanique, et il le fait bien. Mon pari est que la valeur se déplace vers l'écran que l'équipe a sous les yeux : une interface sur mesure, construite avec Claude Code, qui prend peu à peu la place de n8n dans l'usage quotidien.</p>
+    <p class="lead-2">Ces huit workflows montrent à quoi cela ressemble, puisque chacun vient avec son formulaire de lancement et sa page de validation, et que l'équipe s'en sert depuis le navigateur sans ouvrir n8n. Votre équipe utilise n8n ? <a href="mailto:oscardcstudio@gmail.com">Écrivez-moi</a> pour imaginer ensemble l'interface qui irait avec.</p>
+    <nav class="index" aria-label="Les huit workflows">
+      <ul>
+    <li class="index-row"><span class="fam-code-s">W1</span>
+      <ul><li><a href="#w1a"><span class="code">W1a</span><span>publication</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li><li><a href="#w1b"><span class="code">W1b</span><span>boost Meta Ads</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li><li><a href="#w1c"><span class="code">W1c</span><span>relevé quotidien</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li><li><a href="#w1d"><span class="code">W1d</span><span>rapport de fin de campagne</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li></ul></li>
+    <li class="index-row"><span class="fam-code-s">W2</span>
+      <ul><li><a href="#w2a"><span class="code">W2a</span><span>images</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li><li><a href="#w2b"><span class="code">W2b</span><span>vidéo</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li><li><a href="#w2c"><span class="code">W2c</span><span>historique et export</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li></ul></li>
+    <li class="index-row"><span class="fam-code-s">W3</span>
+      <ul><li><a href="#w3"><span class="code">W3</span><span>tri des demandes</span><svg class="ic go" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,148.24l-72,72a6,6,0,0,1-8.48,0l-72-72a6,6,0,0,1,8.48-8.48L122,201.51V40a6,6,0,0,1,12,0V201.51l61.76-61.75a6,6,0,0,1,8.48,8.48Z"/></svg></a></li></ul></li>
+      </ul>
+    </nav>
+    <p class="hero-link"><a href="#tests">Comment ils ont été testés</a></p>
+  </div>
+</section>
+
+<div class="wrap" id="workflows">
+
+<section class="fam" id="w1">
+  <div class="grid fam-head">
+    <div class="wf-side"><p class="fam-code" aria-hidden="true">W1</p></div>
+    <div class="wf-main">
+      <h2>Publication et suivi d’un post</h2>
+      <p class="fam-intro">Cette famille reproduit en n8n la chaîne de communication de Mecene, un outil de subventions d’Oscar : de la légende au bilan chiffré de la campagne. L’estimation du temps gagné tourne autour de 15 à 25 minutes par post.</p>
+    </div>
+  </div>
+  
+<article class="wf" id="w1a" data-json="workflows/W1a-apercu.json" data-mh="840">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W1a</p></div>
+    <div class="wf-main">
+      <h3 class="wf-title">Publication d’un post</h3>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Légende, relecture, publications sur plusieurs réseaux et lien en bio passent par plusieurs outils et laissent des oublis.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Formulaire</strong> <span>Lance la publication d'un post de la frise.</span></li><li><strong>Légende IA + règles</strong> <span>Reprend la légende existante, ou l'IA l'écrit si elle manque.</span></li><li><strong>Validation humaine</strong> <span>Un relecteur valide la légende, puis confirme la publication.</span></li><li><strong>Publication Instagram / LinkedIn / TikTok</strong> <span>Instagram, LinkedIn et TikTok, selon la demande.</span></li><li><strong>Lien en bio + alerte</strong> <span>Le lien en bio bascule, une alerte prévient l'équipe.</span></li></ol>
+          
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Une légende existante n’est jamais écrasée par une légende de l’IA.</li><li>Rien ne part sans la validation de la légende, puis la confirmation « publier ».</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>Meta Graph API (token), LinkedIn OAuth2 (page), TikTok (Custom Auth), Supabase, Postgres, Telegram, OpenRouter.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w1a"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1a"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w1a" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1a">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      <ul class="shots" aria-label="Captures"><li class="shot"><button type="button" class="shot-btn" data-shot="0" data-full="captures/W1a-formulaire.png" data-w="900" data-h="1460"><img src="captures/W1a-formulaire.png" alt="" width="900" height="1460" loading="lazy" decoding="async"><span>Formulaire de lancement</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="1" data-full="captures/W1a-validation-legende.png" data-w="900" data-h="1100"><img src="captures/W1a-validation-legende.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Page de validation de la légende</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="2" data-full="captures/W1a-confirmation.png" data-w="900" data-h="1100"><img src="captures/W1a-confirmation.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Page de confirmation</span></button></li></ul>
+    </div>
+  </div>
+</article>
+<article class="wf" id="w1b" data-json="workflows/W1b-apercu.json" data-mh="1000">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W1b</p></div>
+    <div class="wf-main">
+      <h2 class="wf-title">Boost d’un post Instagram (Meta Ads)</h2>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Booster un post organique passe par plusieurs appels Meta Ads, et une erreur de réglage coûte de l’argent.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Formulaire</strong> <span>Reçoit le post, le budget, la durée et le ciblage.</span></li><li><strong>Préflight</strong> <span>Contrôle les droits et l'éligibilité avant toute création.</span></li><li><strong>Validation humaine</strong> <span>Un relecteur valide la campagne sur une page dédiée.</span></li><li><strong>Création en pause</strong> <span>Tout est créé en pause, sans dépense.</span></li><li><strong>Diffusion + alerte</strong> <span>Démarre sur un second feu vert, avec alerte.</span></li><li><strong>Arrêt immédiat</strong> <span>Coupe la diffusion à tout moment ; une alerte le confirme.</span></li></ol>
+          
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Tout est créé en pause : la création ne dépense pas un euro.</li><li>Le budget reste entre 5 et 200 €, et la durée entre 1 et 14 jours.</li><li>Le ciblage est contrôlé avant création, et la déclaration réglementaire est portée par le workflow.</li><li>Si une étape échoue, la campagne déjà créée est nettoyée.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>Meta Graph API (token), Postgres, Telegram.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w1b"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1b"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w1b" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1b">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      <ul class="shots" aria-label="Captures"><li class="shot"><button type="button" class="shot-btn" data-shot="0" data-full="captures/W1b-formulaire.png" data-w="900" data-h="1100"><img src="captures/W1b-formulaire.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Formulaire de campagne</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="1" data-full="captures/W1b-validation-campagne.png" data-w="900" data-h="1100"><img src="captures/W1b-validation-campagne.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Page de validation de la campagne</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="2" data-full="captures/W1b-lancement.png" data-w="900" data-h="1100"><img src="captures/W1b-lancement.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Lancement</span></button></li></ul>
+    </div>
+  </div>
+</article>
+<article class="wf" id="w1c" data-json="workflows/W1c-apercu.json" data-mh="1000">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W1c</p></div>
+    <div class="wf-main">
+      <h2 class="wf-title">Relevé quotidien</h2>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Les chiffres des posts, des comptes et des annonces vivent dans trois outils différents.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Chaque matin</strong> <span>Chaque matin, ou à la demande.</span></li><li><strong>Instagram</strong> <span>Chiffres des posts et du compte.</span></li><li><strong>TikTok</strong> <span>Vidéos et compte, lien en bio mis à jour.</span></li><li><strong>Meta Ads</strong> <span>Dépense par annonce et par jour.</span></li><li><strong>Verdicts par post</strong> <span>Un verdict par post, tout est enregistré.</span></li><li><strong>Alerte</strong> <span>Une alerte si le relevé est incomplet.</span></li></ol>
+          
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Une métrique indisponible reste vide, jamais comptée à zéro.</li><li>Le workflow refuse de juger un post sous 30 visites.</li><li>Les erreurs sont collectées, jamais avalées : une alerte Telegram part si un relevé est incomplet.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>Meta Graph API (token), TikTok (Custom Auth), Postgres, Telegram.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w1c"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1c"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w1c" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1c">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      </div>
+  </div>
+</article>
+<article class="wf" id="w1d" data-json="workflows/W1d-apercu.json" data-mh="840">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W1d</p></div>
+    <div class="wf-main">
+      <h2 class="wf-title">Rapport de fin de campagne</h2>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Le bilan d’une campagne dépend de quelqu’un qui remarque qu’elle vient de se terminer.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Toutes les heures</strong> <span>Contrôle chaque campagne en diffusion.</span></li><li><strong>Campagne terminée ?</strong> <span>Vérifie si la diffusion est terminée.</span></li><li><strong>Verrou anti-doublon</strong> <span>Une seule alerte par annonce.</span></li><li><strong>Chiffres de la campagne</strong> <span>Dépense, visites, dossiers, coût par dossier.</span></li><li><strong>Bilan envoyé</strong> <span>Le bilan part sur Telegram.</span></li></ol>
+          
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Le verrou garantit une seule alerte, même si deux exécutions se croisent.</li><li>Le verrou reste posé même si Telegram échoue : le bilan ne part jamais en double.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>Meta Graph API (token), Postgres, Telegram.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w1d"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1d"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w1d" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W1d">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      </div>
+  </div>
+</article>
+</section>
+
+<section class="fam" id="w2">
+  <div class="grid fam-head">
+    <div class="wf-side"><p class="fam-code" aria-hidden="true">W2</p></div>
+    <div class="wf-main">
+      <h2>Atelier images et vidéo</h2>
+      <p class="fam-intro">Cette famille reproduit en n8n video-studio, un outil de génération d’images d’Oscar. L’estimation du temps gagné tourne autour de 10 à 15 minutes par série de 4 images.</p>
+    </div>
+  </div>
+  
+<article class="wf" id="w2a" data-json="workflows/W2a-apercu.json" data-mh="1000">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W2a</p></div>
+    <div class="wf-main">
+      <h3 class="wf-title">Atelier d’images</h3>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Garder le même style sur plusieurs images, et connaître le coût avant de générer.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Formulaire de génération</strong> <span>Projet, style et images de référence.</span></li><li><strong>Coût + validation humaine</strong> <span>Le coût s'affiche avant toute dépense.</span></li><li><strong>Génération + archivage</strong> <span>Génère, relève le coût réel, archive.</span></li><li><strong>Formulaire d'édition</strong> <span>Dix outils d'édition sur une image existante.</span></li><li><strong>Instruction relue</strong> <span>L'IA rédige l'instruction, un humain la relit.</span></li><li><strong>Nouvelle version</strong> <span>Rattachée à sa source, historique conservé.</span></li></ol>
+          <p class="note">Le mode édition propose 10 outils (zoom out, détourage, relight...). L’IA rédige l’instruction, un humain la relit, et la nouvelle version se rattache à sa source.</p>
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Le coût s’affiche avant la génération.</li><li>Rien ne se génère sans validation humaine.</li><li>Une instruction d’édition rédigée par l’IA est relue avant exécution.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>OpenRouter.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w2a"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W2a"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w2a" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W2a">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      <ul class="shots" aria-label="Captures"><li class="shot"><button type="button" class="shot-btn" data-shot="0" data-full="captures/W2a-formulaire.png" data-w="900" data-h="1314"><img src="captures/W2a-formulaire.png" alt="" width="900" height="1314" loading="lazy" decoding="async"><span>Formulaire de génération</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="1" data-full="captures/W2a-validation.png" data-w="900" data-h="1394"><img src="captures/W2a-validation.png" alt="" width="900" height="1394" loading="lazy" decoding="async"><span>Page de validation avec le coût</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="2" data-full="captures/W2a-edition-formulaire.png" data-w="900" data-h="1100"><img src="captures/W2a-edition-formulaire.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Formulaire d’édition</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="3" data-full="captures/W2a-edition-validation.png" data-w="900" data-h="1100"><img src="captures/W2a-edition-validation.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Validation de l’édition</span></button></li></ul>
+    </div>
+  </div>
+</article>
+<article class="wf" id="w2b" data-json="workflows/W2b-apercu.json" data-mh="840">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W2b</p></div>
+    <div class="wf-main">
+      <h2 class="wf-title">Génération vidéo</h2>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Un ratio non supporté par le modèle est ignoré en silence, et la vidéo est facturée quand même.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Formulaire</strong> <span>Le modèle et les réglages voulus.</span></li><li><strong>Capacités + tarifs</strong> <span>Ce que le modèle accepte, et ses tarifs.</span></li><li><strong>Validation du coût</strong> <span>Le coût s'affiche avant la génération.</span></li><li><strong>Rendu + suivi</strong> <span>Lance le rendu et le suit.</span></li><li><strong>Archivage + coût réel</strong> <span>Archive le rendu et lit le coût réel.</span></li></ol>
+          
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Un ratio non supporté est refusé avant de payer.</li><li>Le coût s’affiche avant la génération. Un coût inconnu s’affiche « — », jamais 0 $.</li><li>Un refus du fournisseur (copyright audio, modération) revient sous forme d’un message qui dit quoi corriger.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>OpenRouter.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w2b"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W2b"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w2b" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W2b">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      <ul class="shots" aria-label="Captures"><li class="shot"><button type="button" class="shot-btn" data-shot="0" data-full="captures/W2b-formulaire.png" data-w="900" data-h="1510"><img src="captures/W2b-formulaire.png" alt="" width="900" height="1510" loading="lazy" decoding="async"><span>Formulaire vidéo</span></button></li><li class="shot"><button type="button" class="shot-btn" data-shot="1" data-full="captures/W2b-validation.png" data-w="900" data-h="1100"><img src="captures/W2b-validation.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Page de validation avec le coût</span></button></li></ul>
+    </div>
+  </div>
+</article>
+<article class="wf" id="w2c" data-json="workflows/W2c-apercu.json" data-mh="840">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W2c</p></div>
+    <div class="wf-main">
+      <h2 class="wf-title">Historique, coûts et export</h2>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Retrouver les versions d’un projet et ce qu’il a coûté oblige à fouiller les fiches une à une.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Formulaire</strong> <span>Désigne le projet à exporter.</span></li><li><strong>Lecture des fiches</strong> <span>Lit les fiches de génération du projet.</span></li><li><strong>Historique + coûts</strong> <span>Chaîne des versions et coûts réels.</span></li><li><strong>Export</strong> <span>Historique lisible et manifeste.</span></li><li><strong>Envoi Google Drive</strong> <span>En option : envoi sur Google Drive.</span></li></ol>
+          
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Un coût inconnu s’affiche « — », jamais 0 $.</li><li>L’envoi sur Google Drive est une option, pas une étape obligatoire.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>Google Drive OAuth2 (pour l’envoi).</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w2c"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W2c"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w2c" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W2c">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      <ul class="shots" aria-label="Captures"><li class="shot"><button type="button" class="shot-btn" data-shot="0" data-full="captures/W2c-formulaire.png" data-w="900" data-h="1100"><img src="captures/W2c-formulaire.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Formulaire d’export</span></button></li></ul>
+    </div>
+  </div>
+</article>
+</section>
+
+<article class="wf" id="w3" data-json="workflows/W3-apercu.json" data-mh="1000">
+  <div class="grid">
+    <div class="wf-side"><p class="wf-code">W3</p></div>
+    <div class="wf-main">
+      <h2 class="wf-title">Tri des demandes entrantes</h2>
+      <p class="problem"><span class="mk" title="Problème"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm0,192a90,90,0,1,1,90-90A90.1,90.1,0,0,1,128,218Zm-6-82V80a6,6,0,0,1,12,0v56a6,6,0,0,1-12,0Zm16,36a10,10,0,1,1-10-10A10,10,0,0,1,138,172Z"/></svg><span class="sr">Problème.</span></span><span>Le formulaire de contact reçoit devis, support, partenariats et spam, et chaque message demande un tri puis une réponse.</span></p>
+      <div class="cols">
+        <div class="steps">
+          <ol><li><strong>Demande reçue</strong> <span>Reçoit le message du formulaire de contact.</span></li><li><strong>Tri par l’IA</strong> <span>Classe la demande et prépare un brouillon.</span></li><li><strong>Spam ?</strong> <span>Le spam est classé sans réponse.</span></li><li><strong>Validation humaine</strong> <span>Le relecteur relit et modifie le brouillon.</span></li><li><strong>Envoi de la réponse</strong> <span>La réponse validée part par mail.</span></li><li><strong>Journal</strong> <span>Chaque demande est journalisée.</span></li></ol>
+          <p class="note">L’estimation du temps gagné tourne autour de 3 à 5 minutes par demande.</p>
+        </div>
+        <div class="aside">
+          <div class="guard"><span class="mk" title="Garde-fous"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,42H48A14,14,0,0,0,34,56v56c0,51.94,25.12,83.4,46.2,100.64,22.73,18.6,45.27,24.89,46.22,25.15a6,6,0,0,0,3.16,0c.95-.26,23.49-6.55,46.22-25.15C196.88,195.4,222,163.94,222,112V56A14,14,0,0,0,208,42Zm2,70c0,37.76-13.94,68.39-41.44,91.06A131.17,131.17,0,0,1,128,225.72a130.94,130.94,0,0,1-40.56-22.66C59.94,180.39,46,149.76,46,112V56a2,2,0,0,1,2-2H208a2,2,0,0,1,2,2ZM172.24,99.76a6,6,0,0,1,0,8.48l-56,56a6,6,0,0,1-8.48,0l-24-24a6,6,0,0,1,8.48-8.48L112,151.51l51.76-51.75A6,6,0,0,1,172.24,99.76Z"/></svg><span class="sr">Garde-fous</span></span>
+            <ul><li>Aucune réponse ne part sans que le relecteur l’ait validée.</li><li>Le spam est classé sans réponse.</li></ul></div>
+          <p class="cred"><span class="mk" title="Credentials"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M215.15,40.85A78,78,0,0,0,86.2,121.31l-56.1,56.1a13.94,13.94,0,0,0-4.1,9.9V216a14,14,0,0,0,14,14H72a6,6,0,0,0,6-6V206H96a6,6,0,0,0,6-6V182h18a6,6,0,0,0,4.24-1.76l10.45-10.44A77.59,77.59,0,0,0,160,174h.1A78,78,0,0,0,215.15,40.85ZM226,98.16c-1.12,35.16-30.67,63.8-65.88,63.84a65.93,65.93,0,0,1-24.51-4.67,6,6,0,0,0-6.64,1.26L117.51,170H96a6,6,0,0,0-6,6v18H72a6,6,0,0,0-6,6v18H40a2,2,0,0,1-2-2V187.31a2,2,0,0,1,.58-1.41l58.83-58.83a6,6,0,0,0,1.26-6.64A65.61,65.61,0,0,1,94,95.92C94,60.71,122.68,31.16,157.83,30A66,66,0,0,1,226,98.16ZM190,76a10,10,0,1,1-10-10A10,10,0,0,1,190,76Z"/></svg><span class="sr">Credentials :</span></span><span>Gmail OAuth2, OpenRouter.</span></p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-solid" data-open aria-expanded="false" aria-controls="stage-w3"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M160,110h48a14,14,0,0,0,14-14V48a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14V66H128a22,22,0,0,0-22,22v34H70V112A14,14,0,0,0,56,98H24a14,14,0,0,0-14,14v32a14,14,0,0,0,14,14H56a14,14,0,0,0,14-14V134h36v34a22,22,0,0,0,22,22h18v18a14,14,0,0,0,14,14h48a14,14,0,0,0,14-14V160a14,14,0,0,0-14-14H160a14,14,0,0,0-14,14v18H128a10,10,0,0,1-10-10V88a10,10,0,0,1,10-10h18V96A14,14,0,0,0,160,110ZM58,144a2,2,0,0,1-2,2H24a2,2,0,0,1-2-2V112a2,2,0,0,1,2-2H56a2,2,0,0,1,2,2Zm100,16a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2v48a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Zm0-112a2,2,0,0,1,2-2h48a2,2,0,0,1,2,2V96a2,2,0,0,1-2,2H160a2,2,0,0,1-2-2Z"/></svg><span data-label>Voir l’aperçu</span></button>
+        <a class="btn btn-line" href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W3"><svg class="ic" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,50H32a6,6,0,0,0-6,6V192a14,14,0,0,0,14,14H216a14,14,0,0,0,14-14V56A6,6,0,0,0,224,50ZM208.58,62,128,135.86,47.42,62ZM216,194H40a2,2,0,0,1-2-2V69.64l86,78.78a6,6,0,0,0,8.1,0L218,69.64V192A2,2,0,0,1,216,194Z"/></svg><span>Détail des nœuds et fichier complet sur demande</span></a>
+      </div>
+      <div class="stage" id="stage-w3" hidden>
+        <div class="stage-body" data-state="idle">
+          <p class="stage-msg stage-loading" role="status">Chargement du canevas</p>
+          <p class="stage-msg stage-error">Le canevas ne s’est pas chargé. <a href="mailto:oscardcstudio@gmail.com?subject=Workflow%20W3">Détail sur demande</a></p>
+          <button type="button" class="ib expand" aria-label="Agrandir" hidden><svg class="ic i-in" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M214,48V96a6,6,0,0,1-12,0V62.48l-53.76,53.76a6,6,0,0,1-8.48-8.48L193.52,54H160a6,6,0,0,1,0-12h48A6,6,0,0,1,214,48ZM107.76,139.76,54,193.52V160a6,6,0,0,0-12,0v48a6,6,0,0,0,6,6H96a6,6,0,0,0,0-12H62.48l53.76-53.76a6,6,0,0,0-8.48-8.48Z"/></svg><svg class="ic i-out" aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+          <button type="button" class="lock" aria-label="Activer le canevas" hidden><span>Cliquer pour explorer</span></button>
+        </div>
+      </div>
+      <ul class="shots" aria-label="Captures"><li class="shot"><button type="button" class="shot-btn" data-shot="1" data-full="captures/W3-validation-humaine.png" data-w="900" data-h="1100"><img src="captures/W3-validation-humaine.png" alt="" width="900" height="1100" loading="lazy" decoding="async"><span>Page de validation humaine</span></button></li></ul>
+    </div>
+  </div>
+</article>
+</div>
+
+<section class="doc" id="tests">
+  <div class="wrap grid">
+    <div class="wf-side"></div>
+    <div class="wf-main">
+      <h2>Comment ils ont été testés</h2>
+      <p>Les huit fichiers contiennent de vrais nœuds d’API : Instagram Graph (en deux temps), LinkedIn, TikTok, Meta Ads, OpenRouter (image et vidéo), Google Drive, Gmail, Telegram, Postgres, Supabase. Aucune clé ni aucun identifiant de credential ne figure dans les exports.</p>
+      <p>Les huit ont tourné en local dans n8n 2.42, sur une copie de test. Dans cette copie, chaque appel qui publie, envoie ou dépense était remplacé par une réponse factice. Aucune publication, aucun mail, aucune dépense publicitaire et aucune génération payante n’a donc eu lieu. Seuls deux appels étaient réels : un modèle de langage gratuit sur OpenRouter, et la lecture du catalogue des modèles vidéo d’OpenRouter, qui est gratuite.</p>
+      <p>Les workflows reposent sur les vraies API, mais aucun n’a été exécuté contre un vrai compte Instagram, LinkedIn, TikTok, Meta Ads, Gmail ou Drive. Aucun n’a servi à un client.</p>
+      <p class="principle">Le principe commun : un workflow qui publie, envoie un mail ou dépense s’arrête d’abord sur une page où un humain valide. Les garde-fous propres à chaque workflow sont listés dans sa fiche.</p>
+    </div>
+  </div>
+</section>
+
+<section class="doc" id="demande">
+  <div class="wrap grid">
+    <div class="wf-side"></div>
+    <div class="wf-main">
+      <h2>Le détail, sur demande</h2>
+      <p>Les aperçus montrent la structure de chaque workflow et ses garde-fous. Le détail des nœuds et le fichier complet à importer dans n8n sont transmis sur demande, avec la liste des credentials à créer et des réglages à adapter.</p>
+      <p><a href="mailto:oscardcstudio@gmail.com?subject=Workflows%20n8n">Écrire pour demander le détail</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <a class="foot-cta" href="mailto:oscardcstudio@gmail.com"><span>Contact</span><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"/></svg></a>
+    <p class="foot-mail"><a href="mailto:oscardcstudio@gmail.com">oscardcstudio@gmail.com</a></p>
+    <ul class="foot-links">
+      <li><a href="https://www.odcstudio.fr" target="_blank" rel="noopener">Site</a></li>
+      <li><a href="https://www.odcstudio.fr/outils-ia" target="_blank" rel="noopener">Autres outils</a></li>
+      <li><a href="https://www.linkedin.com/in/oscar-de-canecaude-4b44391bb" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </div>
+</footer>
+
+</div>
+
+<dialog id="lb" aria-label="Capture">
+  <div class="lb-in">
+    <div class="lb-bar">
+      <p class="lb-cap" id="lb-cap"></p>
+      <div class="lb-ctl">
+        <button type="button" class="ib" id="lb-prev" aria-label="Précédente"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M164.24,203.76a6,6,0,1,1-8.48,8.48l-80-80a6,6,0,0,1,0-8.48l80-80a6,6,0,0,1,8.48,8.48L88.49,128Z"/></svg></button>
+        <button type="button" class="ib" id="lb-next" aria-label="Suivante"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M180.24,132.24l-80,80a6,6,0,0,1-8.48-8.48L167.51,128,91.76,52.24a6,6,0,0,1,8.48-8.48l80,80A6,6,0,0,1,180.24,132.24Z"/></svg></button>
+        <button type="button" class="ib" id="lb-close" aria-label="Fermer"><svg class="ic " aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M204.24,195.76a6,6,0,1,1-8.48,8.48L128,136.49,60.24,204.24a6,6,0,0,1-8.48-8.48L119.51,128,51.76,60.24a6,6,0,0,1,8.48-8.48L128,119.51l67.76-67.75a6,6,0,0,1,8.48,8.48L136.49,128Z"/></svg></button>
+      </div>
+    </div>
+    <div class="lb-view" id="lb-view"><img id="lb-img" alt=""></div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  /* ---------- canevas n8n (composant officiel <n8n-demo>) ---------- */
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const defined = () => Promise.race([
+    customElements.whenDefined('n8n-demo'),
+    wait(10000).then(() => { throw new Error('composant absent'); })
+  ]);
+
+  async function mount(art) {
+    const body = art.querySelector('.stage-body');
+    const lock = body.querySelector('.lock');
+    body.dataset.state = 'loading';
+    try {
+      const narrow = matchMedia("(max-width:719px)").matches;
+      if (narrow) art.querySelector(".stage").style.setProperty("--canvas-h", art.dataset.mh + "px");
+      const [json] = await Promise.all([fetch(narrow ? art.dataset.json.replace("-apercu.json", "-apercu-m.json") : art.dataset.json).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }), defined()]);
+      const el = document.createElement('n8n-demo');
+      el.setAttribute('collapseformobile', 'false');
+      el.setAttribute('hidecanvaserrors', 'true');
+      el.setAttribute('theme', 'light');
+      el.workflow = JSON.stringify(json);
+      body.prepend(el);
+      art._demo = el;
+      const t0 = performance.now();
+      await new Promise((resolve, reject) => {
+        const iv = setInterval(() => {
+          if (el.error) { clearInterval(iv); reject(new Error('erreur composant')); }
+          else if (el.n8nReady && el.iframeVisible) { clearInterval(iv); resolve(); }
+          else if (performance.now() - t0 > 25000) { clearInterval(iv); reject(new Error('délai dépassé')); }
+        }, 200);
+      });
+      await wait(900);
+      body.dataset.state = 'ready';
+      lock.hidden = false;
+      body.querySelector('.expand').hidden = false;
+      if (fine) body.addEventListener('mouseleave', () => { if (!body.closest('.stage').classList.contains('full')) lock.hidden = false; });
+    } catch (e) {
+      body.dataset.state = 'error';
+      art._demo?.remove();
+      art._demo = null;
+    }
+  }
+
+  function toggleFull(stage, force) {
+    const on = force ?? !stage.classList.contains('full');
+    stage.classList.toggle('full', on);
+    document.documentElement.style.overflow = on ? 'hidden' : '';
+    const ex = stage.querySelector('.expand');
+    ex.setAttribute('aria-label', on ? 'Réduire' : 'Agrandir');
+    if (on) stage.querySelector('.lock').hidden = true;
+  }
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.stage.full').forEach((s) => toggleFull(s, false)); });
+
+  document.addEventListener('click', (e) => {
+    const lock = e.target.closest('.lock');
+    if (lock) { lock.hidden = true; return; }
+    const ex = e.target.closest('.expand');
+    if (ex) { toggleFull(ex.closest('.stage')); return; }
+    const btn = e.target.closest('[data-open]');
+    if (!btn) return;
+    const art = btn.closest('.wf');
+    const stage = art.querySelector('.stage');
+    const label = btn.querySelector('[data-label]');
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    if (open) {
+      stage.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      label.textContent = 'Voir l’aperçu';
+      return;
+    }
+    stage.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    label.textContent = 'Masquer l’aperçu';
+    if (!art._started) { art._started = true; mount(art); }
+    requestAnimationFrame(() => stage.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' }));
+  });
+
+  /* ---------- visionneuse de captures ---------- */
+  const lb = document.getElementById('lb');
+  const img = document.getElementById('lb-img');
+  const cap = document.getElementById('lb-cap');
+  const view = document.getElementById('lb-view');
+  const prev = document.getElementById('lb-prev');
+  const next = document.getElementById('lb-next');
+  let list = [], at = 0, opener = null;
+
+  function show(i) {
+    at = i;
+    const b = list[i];
+    view.classList.remove('zoom');
+    img.src = b.dataset.full;
+    img.width = b.dataset.w; img.height = b.dataset.h;
+    cap.textContent = b.querySelector('span').textContent;
+    prev.disabled = i === 0;
+    next.disabled = i === list.length - 1;
+  }
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.shot-btn');
+    if (!b) return;
+    opener = b;
+    list = [...b.closest('.shots').querySelectorAll('.shot-btn')];
+    show(list.indexOf(b));
+    lb.showModal();
+  });
+  prev.addEventListener('click', () => at > 0 && show(at - 1));
+  next.addEventListener('click', () => at < list.length - 1 && show(at + 1));
+  document.getElementById('lb-close').addEventListener('click', () => lb.close());
+  img.addEventListener('click', () => view.classList.toggle('zoom'));
+  lb.addEventListener('click', (e) => { if (e.target === lb || e.target === view) lb.close(); });
+  lb.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' && at > 0) show(at - 1);
+    if (e.key === 'ArrowRight' && at < list.length - 1) show(at + 1);
+  });
+  lb.addEventListener('close', () => opener && opener.focus());
+
+  /* ---------- intégration en iframe : envoie la hauteur du contenu au parent ---------- */
+  if (parent !== window) {
+    const page = document.getElementById('page');
+    const send = () => parent.postMessage({ type: 'n8n-workflows:height', height: Math.ceil(page.getBoundingClientRect().height) }, '*');
+    new ResizeObserver(send).observe(page);
+    addEventListener('load', send);
+  }
+})();
+
+</script>
+</body>
+</html>

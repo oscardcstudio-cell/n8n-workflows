@@ -1,0 +1,240 @@
+{
+ "name": "W1c · Relevé quotidien (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Chaque matin",
+   "position": [
+    75,
+    0
+   ],
+   "type": "n8n-nodes-base.scheduleTrigger",
+   "typeVersion": 1.2,
+   "parameters": {
+    "rule": {
+     "interval": [
+      {
+       "field": "days"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    -15
+   ],
+   "parameters": {
+    "content": "Se lance chaque matin, ou à la demande.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Instagram",
+   "position": [
+    75,
+    160
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    145
+   ],
+   "parameters": {
+    "content": "Relève les chiffres des posts et du compte. Une métrique indisponible reste vide, jamais comptée à zéro.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · TikTok",
+   "position": [
+    75,
+    320
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    305
+   ],
+   "parameters": {
+    "content": "Relève les vidéos et le compte, et fait suivre le lien en bio sur la dernière vidéo.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Meta Ads",
+   "position": [
+    75,
+    480
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    465
+   ],
+   "parameters": {
+    "content": "Relève la dépense par annonce et par jour. Ignoré si aucun compte publicitaire n'est configuré.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Verdicts par post",
+   "position": [
+    75,
+    640
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    625
+   ],
+   "parameters": {
+    "content": "Croise les chiffres et rend un verdict par post. Aucun verdict sous 30 visites.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec6",
+   "name": "6 · Alerte",
+   "position": [
+    75,
+    800
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note6",
+   "name": "Note 6",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    785
+   ],
+   "parameters": {
+    "content": "Les erreurs sont collectées, jamais avalées : une alerte prévient si un relevé est incomplet.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Chaque matin": {
+   "main": [
+    [
+     {
+      "node": "2 · Instagram",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Instagram": {
+   "main": [
+    [
+     {
+      "node": "3 · TikTok",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · TikTok": {
+   "main": [
+    [
+     {
+      "node": "4 · Meta Ads",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Meta Ads": {
+   "main": [
+    [
+     {
+      "node": "5 · Verdicts par post",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "5 · Verdicts par post": {
+   "main": [
+    [
+     {
+      "node": "6 · Alerte",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

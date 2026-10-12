@@ -1,0 +1,256 @@
+{
+ "name": "W1a · Publication d'un post (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Formulaire",
+   "position": [
+    75,
+    0
+   ],
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.2,
+   "parameters": {
+    "formTitle": "Formulaire",
+    "formFields": {
+     "values": []
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    -15
+   ],
+   "parameters": {
+    "content": "Lance la publication d'un post de la frise. La demande est contrôlée avant toute action.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Légende IA + règles",
+   "position": [
+    75,
+    160
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    145
+   ],
+   "parameters": {
+    "content": "Reprend la légende existante ; l'IA n'écrit que si elle manque, relue par les règles de la marque. Jamais d'écrasement.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Validation humaine",
+   "position": [
+    75,
+    320
+   ],
+   "notes": "Validé / Refusé",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Validé"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Refusé"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    305
+   ],
+   "parameters": {
+    "content": "Un relecteur valide la légende, puis confirme « publier ». Rien ne part sans les deux.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Publication Instagram / LinkedIn / TikTok",
+   "position": [
+    75,
+    480
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    465
+   ],
+   "parameters": {
+    "content": "Instagram (carrousel ou reel), LinkedIn (document), TikTok (brouillon). Un post déjà publié ne repart pas.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Lien en bio + alerte",
+   "position": [
+    75,
+    640
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    235,
+    625
+   ],
+   "parameters": {
+    "content": "Le lien en bio bascule sur le nouveau post, puis une alerte Telegram prévient l'équipe.",
+    "height": 130,
+    "width": 190,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Formulaire": {
+   "main": [
+    [
+     {
+      "node": "2 · Légende IA + règles",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Légende IA + règles": {
+   "main": [
+    [
+     {
+      "node": "3 · Validation humaine",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · Validation humaine": {
+   "main": [
+    [
+     {
+      "node": "4 · Publication Instagram / LinkedIn / TikTok",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Publication Instagram / LinkedIn / TikTok": {
+   "main": [
+    [
+     {
+      "node": "5 · Lien en bio + alerte",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}

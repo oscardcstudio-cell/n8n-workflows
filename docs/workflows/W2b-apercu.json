@@ -1,0 +1,312 @@
+{
+ "name": "W2b · Génération vidéo (aperçu)",
+ "nodes": [
+  {
+   "id": "sec1",
+   "name": "1 · Formulaire",
+   "position": [
+    0,
+    0
+   ],
+   "type": "n8n-nodes-base.formTrigger",
+   "typeVersion": 2.2,
+   "parameters": {
+    "formTitle": "Formulaire",
+    "formFields": {
+     "values": []
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note1",
+   "name": "Note 1",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    -50,
+    160
+   ],
+   "parameters": {
+    "content": "Reçoit le modèle et les réglages voulus.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec2",
+   "name": "2 · Capacités + tarifs",
+   "position": [
+    210,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note2",
+   "name": "Note 2",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    160,
+    160
+   ],
+   "parameters": {
+    "content": "Relit en direct ce que le modèle accepte et ses tarifs. Un réglage non supporté est refusé avant de payer.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec3",
+   "name": "3 · Validation du coût",
+   "position": [
+    420,
+    0
+   ],
+   "notes": "Valider / Annuler",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Valider"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Annuler"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note3",
+   "name": "Note 3",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    370,
+    160
+   ],
+   "parameters": {
+    "content": "Le coût estimé s'affiche avant la génération. Un coût inconnu s'affiche « — », jamais 0 $.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec4",
+   "name": "4 · Rendu + suivi",
+   "position": [
+    630,
+    0
+   ],
+   "notes": "Terminé / Échec",
+   "notesInFlow": true,
+   "type": "n8n-nodes-base.switch",
+   "typeVersion": 3.2,
+   "parameters": {
+    "rules": {
+     "values": [
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Terminé"
+      },
+      {
+       "conditions": {
+        "options": {
+         "caseSensitive": true,
+         "leftValue": "",
+         "typeValidation": "strict",
+         "version": 2
+        },
+        "conditions": [
+         {
+          "id": "c",
+          "leftValue": "",
+          "rightValue": "",
+          "operator": {
+           "type": "string",
+           "operation": "equals"
+          }
+         }
+        ],
+        "combinator": "and"
+       },
+       "renameOutput": true,
+       "outputKey": "Échec"
+      }
+     ]
+    },
+    "options": {}
+   }
+  },
+  {
+   "id": "note4",
+   "name": "Note 4",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    580,
+    160
+   ],
+   "parameters": {
+    "content": "Lance le rendu et le suit, 15 minutes au plus. Un échec revient avec ce qu'il faut corriger.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  },
+  {
+   "id": "sec5",
+   "name": "5 · Archivage + coût réel",
+   "position": [
+    840,
+    0
+   ],
+   "type": "n8n-nodes-base.noOp",
+   "typeVersion": 1,
+   "parameters": {}
+  },
+  {
+   "id": "note5",
+   "name": "Note 5",
+   "type": "n8n-nodes-base.stickyNote",
+   "typeVersion": 1,
+   "position": [
+    790,
+    160
+   ],
+   "parameters": {
+    "content": "Télécharge le rendu, l'archive avec sa fiche et lit le coût réel.",
+    "height": 130,
+    "width": 200,
+    "color": 7
+   }
+  }
+ ],
+ "connections": {
+  "1 · Formulaire": {
+   "main": [
+    [
+     {
+      "node": "2 · Capacités + tarifs",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "2 · Capacités + tarifs": {
+   "main": [
+    [
+     {
+      "node": "3 · Validation du coût",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "3 · Validation du coût": {
+   "main": [
+    [
+     {
+      "node": "4 · Rendu + suivi",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  },
+  "4 · Rendu + suivi": {
+   "main": [
+    [
+     {
+      "node": "5 · Archivage + coût réel",
+      "type": "main",
+      "index": 0
+     }
+    ]
+   ]
+  }
+ },
+ "pinData": {},
+ "active": false,
+ "settings": {
+  "executionOrder": "v1"
+ },
+ "meta": {
+  "templateCredsSetupCompleted": false
+ }
+}
