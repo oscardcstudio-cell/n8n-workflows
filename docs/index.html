@@ -707,6 +707,7 @@ dialog :focus-visible{outline-color:var(--paper)}
 
   /* ---------- intégration en iframe : envoie la hauteur du contenu au parent ---------- */
   if (parent !== window) {
+    document.querySelector('header.top').style.display = 'none'; // le site parent a déjà son en-tête
     const page = document.getElementById('page');
     const send = () => parent.postMessage({ type: 'n8n-workflows:height', height: Math.ceil(page.getBoundingClientRect().height) }, '*');
     new ResizeObserver(send).observe(page);
